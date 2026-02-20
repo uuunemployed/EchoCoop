@@ -18,15 +18,12 @@ import com.internship.echocoop.ui.theme.EchoCoopTheme
 
 @Composable
 fun GameHeaderBox(
-    width: Int,
-    height: Int,
     modifier: Modifier = Modifier,
     onClick: (() -> Unit)? = null,
     content: @Composable () -> Unit
 ) {
     Box(
         modifier = modifier
-            .size(width.dp, height.dp)
             .clip(RoundedCornerShape(13.dp))
             .then(
                 if (onClick != null) Modifier.clickable { onClick() }
@@ -50,9 +47,7 @@ fun GameHeaderBox(
 fun GameScreenPreview() {
     EchoCoopTheme() {
         GameHeaderBox(
-            width = 24,
-            height = 24,
-            modifier  = Modifier,
+            modifier  = Modifier.size(24.dp),
             onClick = {},
             content = {}
         )

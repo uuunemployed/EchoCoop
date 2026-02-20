@@ -1,4 +1,4 @@
-package com.internship.echocoop.ui.screens
+package com.internship.echocoop.ui.navigation
 
 const val HomeRoute = "home"
 const val GameRoute = "game"

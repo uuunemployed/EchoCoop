@@ -8,6 +8,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.internship.echocoop.R
 import com.internship.echocoop.ui.components.Header
@@ -25,7 +26,7 @@ fun PrivacyScreen(onBack: () -> Unit) {
         )
 
         Header(
-            title = "Privacy Policy",
+            title = stringResource(id = R.string.privacy_policy),
             onBack = onBack,
             modifier = Modifier.padding(horizontal = 20.dp)
         )

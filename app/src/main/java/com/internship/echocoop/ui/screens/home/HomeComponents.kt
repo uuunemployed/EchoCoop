@@ -1,40 +1,32 @@
-package com.internship.echocoop.ui.components
+package com.internship.echocoop.ui.screens.home
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.internship.echocoop.R
+import com.internship.echocoop.ui.components.GameBox
+import com.internship.echocoop.ui.components.GameText
 
 @Composable
-fun GameBox(
-    modifier: Modifier = Modifier,
-    bg: String = "white",
-    content: @Composable () -> Unit
-) {
-    Box(
-        modifier = modifier,
-        contentAlignment = Alignment.Center
+fun GameMenuButton(text: String, onClick: () -> Unit) {
+    GameBox (
+        bg = "white",
+        modifier = Modifier
+            .size(width = 184.dp, height = 61.dp)
+            .clickable { onClick() }
     ) {
-        val imageResource = if (bg == "white") {
-            R.drawable.button_bg_white
-        } else {
-            R.drawable.button_bg_dark
-        }
-
         Image(
-            painter = painterResource(id = imageResource),
+            painter = painterResource(id = R.drawable.button_bg_white),
             contentDescription = null,
             modifier = Modifier.fillMaxSize(),
             contentScale = ContentScale.FillBounds
         )
-
-        content()
+        GameText(text = text)
     }
 }

@@ -30,7 +30,7 @@ fun Header(title: String, onBack: () -> Unit, modifier: Modifier = Modifier) {
         Box(
             modifier = Modifier.align(Alignment.CenterStart)
         ) {
-            GameHeaderBox(width = 50, height = 50, onClick = onBack) {
+            GameHeaderBox(modifier = Modifier.size(50.dp), onClick = onBack) {
                 Image(
                     painter = painterResource(id = R.drawable.ic_arrow),
                     contentDescription = "Back",

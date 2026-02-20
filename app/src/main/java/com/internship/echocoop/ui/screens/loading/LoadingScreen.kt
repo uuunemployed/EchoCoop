@@ -48,23 +48,21 @@ fun LoadingScreen(onFinished: () -> Unit) {
             modifier = Modifier
                 .fillMaxSize(),
             horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center,
-
         ) {
-
+            Spacer(modifier = Modifier.weight(1.86f))
             Image(
                 painter = painterResource(id = R.drawable.logo),
                 contentDescription = "Logo",
-                modifier = Modifier.size(width = 257.dp, height = 273.dp),
-                contentScale = ContentScale.Fit
+                modifier = Modifier.fillMaxWidth(257f/412f),
+                contentScale = ContentScale.FillWidth
             )
 
-            Spacer(Modifier.height(176.dp))
+            Spacer(modifier = Modifier.weight(1.76f))
 
             Box(
                 modifier = Modifier
-                    .width(176.dp)
-                    .height(23.dp)
+                    .fillMaxWidth(199f/412f)
+                    .aspectRatio(199f/23f)
                     .clip(RoundedCornerShape(18.dp))
                     .background(Color.DarkGray)
                     .border(1.dp, Color.Black, RoundedCornerShape(18.dp))
@@ -78,6 +76,8 @@ fun LoadingScreen(onFinished: () -> Unit) {
                         .border(2.dp, Color(0xFF3B4E00).copy(alpha = 0.5f), RoundedCornerShape(18.dp))
                 )
             }
+
+            Spacer(modifier = Modifier.weight(2.59f))
         }
     }
 }

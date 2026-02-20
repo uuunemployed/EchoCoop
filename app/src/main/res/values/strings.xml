@@ -1,3 +1,15 @@
 <resources>
     <string name="app_name">EchoCoop</string>
+    <string name="logo">Logo</string>
+    <string name="start">START</string>
+    <string name="records">Records</string>
+    <string name="privacy_policy">Privacy Policy</string>
+
+    <string name="pause">PAUSE</string>
+    <string name="resume">RESUME</string>
+    <string name="exit">EXIT</string>
+    <string name="game_over">GAME OVER</string>
+    <string name="play_again">PLAY AGAIN</string>
+
+    <string name="no_records_yet">"No Records Yet"</string>
 </resources>

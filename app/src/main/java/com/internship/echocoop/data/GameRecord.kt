@@ -1,4 +1,4 @@
-package com.internship.echocoop
+package com.internship.echocoop.data
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey

@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
@@ -14,6 +15,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.internship.echocoop.R
@@ -27,7 +29,6 @@ fun HomeScreen(
     onRecordsClick: () -> Unit,
     onPrivacyClick: () -> Unit
 ) {
-
     Box {
         Image(
             painter = painterResource(id = R.drawable.main_background),
@@ -43,46 +44,29 @@ fun HomeScreen(
         ) {
             Image(
                 painter = painterResource(id = R.drawable.logo),
-                contentDescription = "Logo",
-                modifier = Modifier.size(width = 257.dp, height = 273.dp),
-                contentScale = ContentScale.Fit
+                contentDescription = stringResource(id = R.string.logo),
+                modifier = Modifier.fillMaxWidth(257f/412f),
+                contentScale = ContentScale.FillWidth
             )
 
             Spacer(Modifier.height(30.dp))
 
             Column(
-                    verticalArrangement = Arrangement.spacedBy(29.dp),
-                ) {
-                GameMenuButton("START", onStartClick)
-                GameMenuButton("RECORDS", onRecordsClick)
-                GameMenuButton("PRIVACY POLICY", onPrivacyClick)
+                verticalArrangement = Arrangement.spacedBy(29.dp),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                GameMenuButton(stringResource(id = R.string.start), onStartClick)
+                GameMenuButton(stringResource(id = R.string.records).uppercase(), onRecordsClick)
+                GameMenuButton(stringResource(id = R.string.privacy_policy).uppercase(), onPrivacyClick)
             }
         }
-    }
-}
-
-@Composable
-fun GameMenuButton(text: String, onClick: () -> Unit) {
-    GameBox (
-        bg = "white",
-        modifier = Modifier.clickable {
-            onClick()
-        }
-    ) {
-        Image(
-            painter = painterResource(id = R.drawable.button_bg_white),
-            contentDescription = null,
-            modifier = Modifier.fillMaxSize(),
-            contentScale = ContentScale.FillBounds
-        )
-        GameText(text = text)
     }
 }
 
 @Preview(showBackground = true, widthDp = 412, heightDp = 917)
 @Composable
 fun HomeScreenPreview() {
-    EchoCoopTheme {
+    EchoCoopTheme() {
         HomeScreen(
             onStartClick = {},
             onRecordsClick = {},

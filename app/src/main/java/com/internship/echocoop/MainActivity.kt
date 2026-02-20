@@ -13,11 +13,12 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.internship.echocoop.ui.screens.GameRoute
+import com.internship.echocoop.ui.navigation.AppNavigation
+import com.internship.echocoop.ui.navigation.GameRoute
 import com.internship.echocoop.ui.screens.GameScreen
-import com.internship.echocoop.ui.screens.HomeRoute
-import com.internship.echocoop.ui.screens.PrivacyRoute
-import com.internship.echocoop.ui.screens.RecordsRoute
+import com.internship.echocoop.ui.navigation.HomeRoute
+import com.internship.echocoop.ui.navigation.PrivacyRoute
+import com.internship.echocoop.ui.navigation.RecordsRoute
 import com.internship.echocoop.ui.screens.RecordsScreen
 import com.internship.echocoop.ui.screens.home.HomeScreen
 import com.internship.echocoop.ui.screens.loading.LoadingScreen
@@ -41,48 +42,6 @@ class MainActivity : ComponentActivity() {
         }
     }
 }
-
-
-@Composable
-fun AppNavigation() {
-    val navController = rememberNavController()
-
-    NavHost(
-        navController = navController,
-        startDestination = "loading"
-    ) {
-        composable("loading") {
-            LoadingScreen (onFinished = {
-                navController.navigate(HomeRoute) {
-                    popUpTo("loading") { inclusive = true }
-                }
-            })
-        }
-
-        composable(HomeRoute) {
-            HomeScreen(
-                onStartClick = { navController.navigate(GameRoute) },
-                onRecordsClick = { navController.navigate(RecordsRoute) },
-                onPrivacyClick = { navController.navigate(PrivacyRoute) }
-            )
-        }
-
-        composable(GameRoute) {
-            GameScreen(onExit = { navController.popBackStack() })
-        }
-
-        composable(RecordsRoute) {
-            RecordsScreen(
-                onBack = { navController.popBackStack() }
-            )
-        }
-
-        composable(PrivacyRoute) {
-            PrivacyScreen(onBack = { navController.popBackStack() })
-        }
-    }
-}
-
 
 @Preview(showBackground = true)
 @Composable
