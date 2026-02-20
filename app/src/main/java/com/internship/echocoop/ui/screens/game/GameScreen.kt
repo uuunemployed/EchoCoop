@@ -6,7 +6,6 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalConfiguration
@@ -17,17 +16,8 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.internship.echocoop.R
 import com.internship.echocoop.data.AppDatabase
 import com.internship.echocoop.data.Repository
-import com.internship.echocoop.ui.screens.game.GameHero
-import com.internship.echocoop.ui.screens.game.GameOverMenu
-import com.internship.echocoop.ui.screens.game.GameTopUI
-import com.internship.echocoop.ui.screens.game.GameViewModel
-import com.internship.echocoop.ui.screens.game.GameViewModelFactory
-import com.internship.echocoop.ui.screens.game.PauseMenu
-
-const val TRIANGLE_WIDTH = 162f
-const val TRIANGLE_HEIGHT = 140f
-const val BOTTOM_PADDING = 38f
-const val STRIP_HEIGHT = 11f
+import com.internship.echocoop.ui.screens.game.*
+import com.internship.echocoop.ui.theme.*
 
 @Composable
 fun GameScreen(onExit: () -> Unit) {
@@ -37,20 +27,14 @@ fun GameScreen(onExit: () -> Unit) {
 
     val config = LocalConfiguration.current
     val screenHeightDp = config.screenHeightDp.toFloat()
-    val vertexY = screenHeightDp - BOTTOM_PADDING - TRIANGLE_HEIGHT
-    val gameColors = listOf(Color(0xFF4CAF50), Color(0xFFFF9800), Color(0xFFE91E63))
+    val vertexY = screenHeightDp - 38f - 140f
+
+    val gameColors = remember { listOf(StripGreen, StripOrange, StripPink) }
 
     var currentColorIndex by remember { mutableIntStateOf((0..2).random()) }
     var currentRotation by remember { mutableFloatStateOf(0f) }
     var hasCheckedCollision by remember { mutableStateOf(false) }
     val yPosition = remember { Animatable(-50f) }
-
-    LaunchedEffect(viewModel.isGameOver) {
-        if (!viewModel.isGameOver) {
-            yPosition.snapTo(-50f)
-            hasCheckedCollision = false
-        }
-    }
 
     LaunchedEffect(viewModel.isPlaying) {
         if (viewModel.isPlaying) {
@@ -88,29 +72,21 @@ fun GameScreen(onExit: () -> Unit) {
         Box(
             modifier = Modifier
                 .fillMaxWidth()
-                .height(STRIP_HEIGHT.dp)
+                .height(11.dp)
                 .offset(y = yPosition.value.dp)
                 .graphicsLayer { rotationZ = currentRotation }
                 .background(gameColors[currentColorIndex])
         )
 
-        GameTopUI (
-            lives = viewModel.lives,
-            score = viewModel.score,
-            onPauseClick = { viewModel.togglePause() }
-        )
-
-        GameHero (
-            rotationAngle = viewModel.rotationAngle,
-            onRotate = { viewModel.rotate() }
-        )
+        GameTopUI(viewModel.lives, viewModel.score) { viewModel.togglePause() }
+        GameHero(viewModel.rotationAngle) { viewModel.rotate() }
 
         if (viewModel.isGameOver) {
-            GameOverMenu (score = viewModel.score, resetGame = { viewModel.resetGame() }, onExit = onExit)
+            GameOverMenu(score = viewModel.score, resetGame = { viewModel.resetGame() }, onExit = onExit)
         }
 
         if (viewModel.isPaused) {
-            PauseMenu (onResume = { viewModel.togglePause() }, onExit = onExit)
+            PauseMenu(onResume = { viewModel.togglePause() }, onExit = onExit)
         }
     }
 }

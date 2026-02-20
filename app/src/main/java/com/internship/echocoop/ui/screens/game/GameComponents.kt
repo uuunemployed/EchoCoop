@@ -22,9 +22,11 @@ import com.internship.echocoop.R
 import com.internship.echocoop.ui.components.GameHeaderBox
 import com.internship.echocoop.ui.components.GameMenu
 import com.internship.echocoop.ui.components.GameText
-import com.internship.echocoop.ui.screens.BOTTOM_PADDING
-import com.internship.echocoop.ui.screens.TRIANGLE_HEIGHT
-import com.internship.echocoop.ui.screens.TRIANGLE_WIDTH
+
+
+private const val TRIANGLE_WIDTH = 162f
+private const val TRIANGLE_HEIGHT = 140f
+private const val BOTTOM_PADDING = 38f
 
 @Composable
 fun GameHero(

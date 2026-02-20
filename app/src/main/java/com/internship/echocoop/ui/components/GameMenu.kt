@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBarsPadding
@@ -50,7 +51,7 @@ fun GameMenu(
             verticalAlignment = Alignment.CenterVertically
         ) {
             if (title == "Game Over") {
-                GameHeaderBox(width = 50, height = 50, onClick = onPrimaryClick) {
+                GameHeaderBox(modifier = Modifier.size(50.dp), onClick = onPrimaryClick) {
                     Image(
                         painter = painterResource(id = R.drawable.ic_arrow),
                         contentDescription = "Back",
@@ -69,7 +70,10 @@ fun GameMenu(
             GameText(text = title, fontSize = 75.sp, uppercase = true)
 
             Column(verticalArrangement = Arrangement.spacedBy(17.dp),) {
-                GameBox(width = 184, height = 61) {
+                GameBox(modifier = Modifier
+                    .fillMaxWidth(184f / 412f)
+                    .height(61.dp)
+                ) {
                     if (primaryButtonText != null) {
                         Button(
                             onClick = onPrimaryClick,
@@ -82,7 +86,11 @@ fun GameMenu(
                     }
                 }
 
-                GameBox(width = 184, height = 61) {
+
+                GameBox(modifier = Modifier
+                    .fillMaxWidth(184f / 412f)
+                    .height(61.dp)
+                ) {
                     Button(
                         onClick = onSecondaryClick,
                         modifier = Modifier.fillMaxSize(),
@@ -103,7 +111,7 @@ fun GameMenuPreview() {
             title = "Game Over",
             subtitle = "3",
             onPrimaryClick = {},
-            secondaryButtonText = "Game Over",
+            secondaryButtonText = "Plaing again",
             onSecondaryClick = { },
         )
     }

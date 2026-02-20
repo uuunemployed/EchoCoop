@@ -3,6 +3,7 @@ package com.internship.echocoop.ui.navigation
 import androidx.compose.runtime.Composable
 import androidx.lifecycle.Lifecycle
 import androidx.navigation.NavController
+import androidx.navigation.NavOptionsBuilder
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
@@ -56,8 +57,11 @@ private fun NavController.navigateUpWhenResumed() {
     }
 }
 
-private fun NavController.navigateWhenResumed(route: String) {
+private fun NavController.navigateWhenResumed(
+    route: String,
+    builder: NavOptionsBuilder.() -> Unit = {}
+) {
     if (currentBackStackEntry?.lifecycle?.currentState == Lifecycle.State.RESUMED) {
-        navigate(route)
+        navigate(route, builder)
     }
 }
