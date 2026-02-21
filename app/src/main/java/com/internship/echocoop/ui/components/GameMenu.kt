@@ -3,22 +3,12 @@ package com.internship.echocoop.ui.components
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.statusBarsPadding
+import androidx.compose.foundation.layout.*
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -26,6 +16,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.internship.echocoop.R
 import com.internship.echocoop.ui.theme.EchoCoopTheme
+import com.internship.echocoop.ui.theme.MenuBgOverlay
 
 @Composable
 fun GameMenu(
@@ -39,10 +30,10 @@ fun GameMenu(
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(Color(0xD9000000))
-            .clickable(enabled = true, onClick = { })
+            .background(MenuBgOverlay)
+            .clickable(enabled = true, onClick = {})
     ) {
-        Row (
+        Row(
             modifier = Modifier
                 .fillMaxWidth()
                 .statusBarsPadding()
@@ -51,7 +42,10 @@ fun GameMenu(
             verticalAlignment = Alignment.CenterVertically
         ) {
             if (title == "Game Over") {
-                GameHeaderBox(modifier = Modifier.size(50.dp), onClick = onPrimaryClick) {
+                GameHeaderBox(
+                    modifier = Modifier.size(50.dp),
+                    onClick = onPrimaryClick
+                ) {
                     Image(
                         painter = painterResource(id = R.drawable.ic_arrow),
                         contentDescription = "Back",
@@ -69,34 +63,44 @@ fun GameMenu(
         ) {
             GameText(text = title, fontSize = 75.sp, uppercase = true)
 
-            Column(verticalArrangement = Arrangement.spacedBy(17.dp),) {
-                GameBox(modifier = Modifier
-                    .fillMaxWidth(184f / 412f)
-                    .height(61.dp)
+            Column(verticalArrangement = Arrangement.spacedBy(17.dp)) {
+
+                GameBox(
+                    modifier = Modifier
+                        .width(184.dp)
+                        .height(61.dp)
                 ) {
                     if (primaryButtonText != null) {
                         Button(
                             onClick = onPrimaryClick,
                             modifier = Modifier.fillMaxSize(),
-                            colors = ButtonDefaults.buttonColors(containerColor = Color.Transparent),
+                            colors = ButtonDefaults.buttonColors(
+                                containerColor = androidx.compose.ui.graphics.Color.Transparent
+                            ),
                             elevation = null
-                        ) { GameText(primaryButtonText, fontSize = 25.sp) }
+                        ) {
+                            GameText(primaryButtonText, fontSize = 25.sp)
+                        }
                     } else {
                         subtitle?.let { GameText(text = it, fontSize = 25.sp) }
                     }
                 }
 
-
-                GameBox(modifier = Modifier
-                    .fillMaxWidth(184f / 412f)
-                    .height(61.dp)
+                GameBox(
+                    modifier = Modifier
+                        .width(184.dp)
+                        .height(61.dp)
                 ) {
                     Button(
                         onClick = onSecondaryClick,
                         modifier = Modifier.fillMaxSize(),
-                        colors = ButtonDefaults.buttonColors(containerColor = Color.Transparent),
+                        colors = ButtonDefaults.buttonColors(
+                            containerColor = androidx.compose.ui.graphics.Color.Transparent
+                        ),
                         elevation = null
-                    ) { GameText(secondaryButtonText, fontSize = 25.sp) }
+                    ) {
+                        GameText(secondaryButtonText, fontSize = 25.sp)
+                    }
                 }
             }
         }
@@ -111,7 +115,7 @@ fun GameMenuPreview() {
             title = "Game Over",
             subtitle = "3",
             onPrimaryClick = {},
-            secondaryButtonText = "Plaing again",
+            secondaryButtonText = "Play Again",
             onSecondaryClick = { },
         )
     }

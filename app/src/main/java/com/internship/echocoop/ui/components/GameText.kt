@@ -12,6 +12,8 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.sp
 import com.internship.echocoop.ui.theme.ChewyFontFamily
+import com.internship.echocoop.ui.theme.GameTextOutline
+import com.internship.echocoop.ui.theme.White
 
 @Composable
 fun GameText(
@@ -30,7 +32,7 @@ fun GameText(
             fontSize = fontSize,
             fontFamily = ChewyFontFamily,
             style = TextStyle.Default.copy(
-                color = Color(0xA1A50041),
+                color = GameTextOutline,
                 drawStyle = Stroke(
                     width = 12f,
                     join = StrokeJoin.Round
@@ -41,7 +43,7 @@ fun GameText(
             text = uppercaseText,
             fontSize = fontSize,
             fontFamily = ChewyFontFamily,
-            color = Color.White,
+            color = White,
             style = TextStyle.Default,
         )
     }

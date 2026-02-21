@@ -12,3 +12,8 @@ val StripPink = Color(0xFFE91E63)
 
 val Black = Color(0xFF000000)
 val White = Color(0xFFFFFFFF)
+
+val MenuBgOverlay = Color(0xD9000000)
+val HeaderGradientStart = Color(0xFF7F4455)
+val HeaderGradientEnd = Color(0xFFE57CA5)
+val GameTextOutline = Color(0xA1A50041)
