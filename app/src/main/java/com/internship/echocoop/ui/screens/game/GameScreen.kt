@@ -82,7 +82,7 @@ fun GameScreen(onExit: () -> Unit) {
         GameHero(viewModel.rotationAngle) { viewModel.rotate() }
 
         if (viewModel.isGameOver) {
-            GameOverMenu(score = viewModel.score, resetGame = { viewModel.resetGame() }, onExit = onExit)
+            GameOverMenu(score = viewModel.score, resetGame = { viewModel.resetGame() }, onExit = onExit, isTopButton = true)
         }
 
         if (viewModel.isPaused) {

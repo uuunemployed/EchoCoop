@@ -84,10 +84,10 @@ fun RecordsScreen(onBack: () -> Unit) {
                     verticalArrangement = Arrangement.spacedBy(10.dp)
                 ) {
                     items(topThree) { record ->
-                        RecordRow(record, bg = "dark")
+                        RecordRow(record, isBgDark = true)
                     }
                     items(rest) { record ->
-                        RecordRow(record, bg = "white")
+                        RecordRow(record)
                     }
                 }
             }

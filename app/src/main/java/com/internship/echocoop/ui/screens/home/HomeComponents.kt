@@ -16,7 +16,6 @@ import com.internship.echocoop.ui.components.GameText
 @Composable
 fun GameMenuButton(text: String, onClick: () -> Unit) {
     GameBox (
-        bg = "white",
         modifier = Modifier
             .size(width = 184.dp, height = 61.dp)
             .clickable { onClick() }

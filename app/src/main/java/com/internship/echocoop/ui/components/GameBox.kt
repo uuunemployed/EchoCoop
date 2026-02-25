@@ -15,17 +15,17 @@ import com.internship.echocoop.R
 @Composable
 fun GameBox(
     modifier: Modifier = Modifier,
-    bg: String = "white",
+    isBgDark: Boolean = false,
     content: @Composable () -> Unit
 ) {
     Box(
         modifier = modifier,
         contentAlignment = Alignment.Center
     ) {
-        val imageResource = if (bg == "white") {
-            R.drawable.button_bg_white
-        } else {
+        val imageResource = if (isBgDark) {
             R.drawable.button_bg_dark
+        } else {
+            R.drawable.button_bg_white
         }
 
         Image(

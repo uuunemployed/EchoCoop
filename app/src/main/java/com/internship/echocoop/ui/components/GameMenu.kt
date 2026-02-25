@@ -9,6 +9,7 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -25,23 +26,25 @@ fun GameMenu(
     primaryButtonText: String? = null,
     onPrimaryClick: () -> Unit,
     secondaryButtonText: String,
-    onSecondaryClick: () -> Unit
+    onSecondaryClick: () -> Unit,
+    isTopButton: Boolean = false
 ) {
-    Box(
+    Column(
         modifier = Modifier
             .fillMaxSize()
             .background(MenuBgOverlay)
-            .clickable(enabled = true, onClick = {})
+            .clickable(enabled = true, onClick = {  })
+            .padding(horizontal = 20.dp),
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .statusBarsPadding()
-                .padding(horizontal = 10.dp)
-                .padding(top = 65.dp),
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            if (title == "Game Over") {
+        Spacer(modifier = Modifier.weight(0.65f))
+
+        if (isTopButton) {
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(50.dp)
+            ) {
                 GameHeaderBox(
                     modifier = Modifier.size(50.dp),
                     onClick = onPrimaryClick
@@ -54,56 +57,55 @@ fun GameMenu(
                     )
                 }
             }
+        } else {
+            Spacer(modifier = Modifier.height(50.dp))
         }
+
+        Spacer(modifier = Modifier.weight(1.9f))
+
+        GameText(text = title, fontSize = 70.sp, uppercase = true)
+
+        Spacer(modifier = Modifier.height(25.dp))
 
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.spacedBy(25.dp),
-            modifier = Modifier.align(Alignment.Center)
+            verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
-            GameText(text = title, fontSize = 75.sp, uppercase = true)
+            val buttonWidthFraction = 184f / 412f
 
-            Column(verticalArrangement = Arrangement.spacedBy(17.dp)) {
-
-                GameBox(
-                    modifier = Modifier
-                        .width(184.dp)
-                        .height(61.dp)
-                ) {
-                    if (primaryButtonText != null) {
-                        Button(
-                            onClick = onPrimaryClick,
-                            modifier = Modifier.fillMaxSize(),
-                            colors = ButtonDefaults.buttonColors(
-                                containerColor = androidx.compose.ui.graphics.Color.Transparent
-                            ),
-                            elevation = null
-                        ) {
-                            GameText(primaryButtonText, fontSize = 25.sp)
-                        }
-                    } else {
-                        subtitle?.let { GameText(text = it, fontSize = 25.sp) }
-                    }
-                }
-
-                GameBox(
-                    modifier = Modifier
-                        .width(184.dp)
-                        .height(61.dp)
-                ) {
+            GameBox(
+                modifier = Modifier
+                    .fillMaxWidth(buttonWidthFraction)
+                    .height(61.dp)
+            ) {
+                if (primaryButtonText != null) {
                     Button(
-                        onClick = onSecondaryClick,
+                        onClick = onPrimaryClick,
                         modifier = Modifier.fillMaxSize(),
-                        colors = ButtonDefaults.buttonColors(
-                            containerColor = androidx.compose.ui.graphics.Color.Transparent
-                        ),
+                        colors = ButtonDefaults.buttonColors(containerColor = Color.Transparent),
                         elevation = null
-                    ) {
-                        GameText(secondaryButtonText, fontSize = 25.sp)
-                    }
+                    ) { GameText(primaryButtonText, fontSize = 24.sp) }
+                } else {
+                    subtitle?.let { GameText(text = it, fontSize = 24.sp) }
                 }
             }
+
+            GameBox(
+                modifier = Modifier
+                    .fillMaxWidth(buttonWidthFraction)
+                    .height(61.dp),
+
+            ) {
+                Button(
+                    onClick = onSecondaryClick,
+                    modifier = Modifier.fillMaxSize(),
+                    colors = ButtonDefaults.buttonColors(containerColor = Color.Transparent),
+                    elevation = null
+                ) { GameText(secondaryButtonText, fontSize = 24.sp) }
+            }
         }
+
+        Spacer(modifier = Modifier.weight(3.92f))
     }
 }
 

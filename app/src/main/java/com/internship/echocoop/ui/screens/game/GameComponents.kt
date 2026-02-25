@@ -16,12 +16,15 @@ import androidx.compose.ui.graphics.TransformOrigin
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.internship.echocoop.R
 import com.internship.echocoop.ui.components.GameHeaderBox
 import com.internship.echocoop.ui.components.GameMenu
 import com.internship.echocoop.ui.components.GameText
+import com.internship.echocoop.ui.theme.EchoCoopTheme
+import com.internship.echocoop.ui.theme.White
 
 
 private const val TRIANGLE_WIDTH = 162f
@@ -73,57 +76,82 @@ fun GameTopUI(
     score: Int,
     onPauseClick: () -> Unit
 ) {
-    Row(
+    Box(
         modifier = Modifier
-            .fillMaxWidth()
+            .fillMaxSize()
             .statusBarsPadding()
-            .padding(horizontal = 10.dp)
-            .padding(top = 65.dp),
-        verticalAlignment = Alignment.CenterVertically,
     ) {
-        GameHeaderBox(modifier = Modifier.size(50.dp)) {
+        Column(
+            modifier = Modifier.fillMaxSize()
+        ) {
+            Spacer(modifier = Modifier.weight(0.65f))
+
             Row(
                 modifier = Modifier
-                    .fillMaxSize()
-                    .clickable { onPauseClick() },
-                horizontalArrangement = Arrangement.Center,
+                    .fillMaxWidth()
+                    .padding(horizontal = 16.dp),
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                repeat(2) {
-                    Box(
+                GameHeaderBox(
+                    modifier = Modifier.size(50.dp),
+                    onClick = onPauseClick
+                ) {
+                    Row(
+                        modifier = Modifier.fillMaxSize(),
+                        horizontalArrangement = Arrangement.Center,
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        repeat(2) {
+                            Box(
+                                modifier = Modifier
+                                    .padding(horizontal = 2.dp)
+                                    .size(6.dp, 22.dp)
+                                    .clip(RoundedCornerShape(3.dp))
+                                    .background(White)
+                            )
+                        }
+                    }
+                }
+
+                Spacer(modifier = Modifier.weight(55f / 412f))
+
+                Row(
+                    modifier = Modifier.weight(1f),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.End
+                ) {
+                    Row(horizontalArrangement = Arrangement.spacedBy(5.dp)) {
+                        repeat(3) { i ->
+                            Image(
+                                painter = painterResource(
+                                    id = if (i < lives) R.drawable.ic_heart_red
+                                    else R.drawable.ic_heart_gray
+                                ),
+                                contentDescription = null,
+                                modifier = Modifier.size(40.dp)
+                            )
+                        }
+                    }
+
+                    Spacer(modifier = Modifier.weight(36f / 412f))
+
+                    GameHeaderBox(
                         modifier = Modifier
-                            .padding(horizontal = 2.dp)
-                            .size(6.dp, 22.dp)
-                            .clip(RoundedCornerShape(3.dp))
-                            .background(Color.White)
-                    )
+                            .width(100.dp)
+                            .height(43.dp)
+                    ) {
+                        GameText(
+                            text = "$score",
+                            fontSize = 28.sp
+                        )
+                    }
                 }
             }
-        }
 
-        Spacer(modifier = Modifier.weight(0.15f))
-
-        Row(verticalAlignment = Alignment.CenterVertically) {
-            Row(horizontalArrangement = Arrangement.spacedBy(5.dp)) {
-                for (i in 1..3) {
-                    Image(
-                        painter = painterResource(
-                            if (i <= lives) R.drawable.ic_heart_red
-                            else R.drawable.ic_heart_gray
-                        ),
-                        contentDescription = null,
-                        modifier = Modifier.size(44.dp, 40.dp)
-                    )
-                }
-            }
-            Spacer(modifier = Modifier.width(20.dp))
-            GameHeaderBox(modifier = Modifier.size(108.dp, 43.dp)) {
-                GameText("$score", fontSize = 30.sp)
-            }
+            Spacer(modifier = Modifier.weight(10f))
         }
     }
 }
-
 @Composable
 fun PauseMenu(onResume: () -> Unit, onExit: () -> Unit) {
     GameMenu(
@@ -136,13 +164,24 @@ fun PauseMenu(onResume: () -> Unit, onExit: () -> Unit) {
 }
 
 @Composable
-fun GameOverMenu(score: Int, resetGame: () -> Unit, onExit: () -> Unit) {
+fun GameOverMenu(score: Int, resetGame: () -> Unit, onExit: () -> Unit, isTopButton: Boolean) {
     GameMenu(
         title = stringResource(id = R.string.game_over),
         subtitle = "Score: $score",
         primaryButtonText = stringResource(id = R.string.exit),
         onPrimaryClick = onExit,
         secondaryButtonText = stringResource(id = R.string.play_again),
-        onSecondaryClick = resetGame
+        onSecondaryClick = resetGame,
+        isTopButton = isTopButton
     )
+}
+
+@Preview(showBackground = true, widthDp = 412, heightDp = 800)
+@Composable
+fun GameTopUIPreview() {
+    EchoCoopTheme {
+
+            GameTopUI(3, 76) {  }
+
+    }
 }

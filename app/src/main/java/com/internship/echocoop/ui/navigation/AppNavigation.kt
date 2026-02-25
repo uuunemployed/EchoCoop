@@ -19,12 +19,12 @@ fun AppNavigation() {
 
     NavHost(
         navController = navController,
-        startDestination = "loading"
+        startDestination = LoadingRoute
     ) {
-        composable("loading") {
+        composable(LoadingRoute) {
             LoadingScreen(onFinished = {
                 navController.navigateWhenResumed(HomeRoute) {
-                    popUpTo("loading") { inclusive = true }
+                    popUpTo(LoadingRoute) { inclusive = true }
                 }
             })
         }

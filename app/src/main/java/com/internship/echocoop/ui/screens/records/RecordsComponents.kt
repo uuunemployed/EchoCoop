@@ -18,8 +18,8 @@ import java.util.Date
 import java.util.Locale
 
 @Composable
-fun RecordRow(record: GameRecord, bg: String) {
-    GameBox(modifier = Modifier.fillMaxWidth().height(60.dp), bg = bg,) {
+fun RecordRow(record: GameRecord, isBgDark: Boolean = false) {
+    GameBox(modifier = Modifier.fillMaxWidth().height(60.dp),isBgDark = isBgDark) {
         Row(
             modifier = Modifier
                 .fillMaxWidth()
