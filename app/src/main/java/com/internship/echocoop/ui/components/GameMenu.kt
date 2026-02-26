@@ -33,32 +33,26 @@ fun GameMenu(
         modifier = Modifier
             .fillMaxSize()
             .background(MenuBgOverlay)
-            .clickable(enabled = true, onClick = {  })
+            .clickable(enabled = true, onClick = { })
             .padding(horizontal = 20.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Spacer(modifier = Modifier.weight(0.65f))
 
-        if (isTopButton) {
-            Box(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(50.dp)
-            ) {
+        Box(modifier = Modifier.fillMaxWidth().height(50.dp)) {
+            if (isTopButton) {
                 GameHeaderBox(
                     modifier = Modifier.size(50.dp),
                     onClick = onPrimaryClick
                 ) {
                     Image(
                         painter = painterResource(id = R.drawable.ic_arrow),
-                        contentDescription = "Back",
+                        contentDescription = "Exit",
                         modifier = Modifier.size(width = 33.dp, height = 20.dp),
                         contentScale = ContentScale.Fit
                     )
                 }
             }
-        } else {
-            Spacer(modifier = Modifier.height(50.dp))
         }
 
         Spacer(modifier = Modifier.weight(1.9f))
@@ -72,12 +66,8 @@ fun GameMenu(
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
             val buttonWidthFraction = 184f / 412f
-
-            GameBox(
-                modifier = Modifier
-                    .fillMaxWidth(buttonWidthFraction)
-                    .height(61.dp)
-            ) {
+            
+            GameBox(modifier = Modifier.fillMaxWidth(buttonWidthFraction).height(61.dp)) {
                 if (primaryButtonText != null) {
                     Button(
                         onClick = onPrimaryClick,
@@ -89,13 +79,8 @@ fun GameMenu(
                     subtitle?.let { GameText(text = it, fontSize = 24.sp) }
                 }
             }
-
-            GameBox(
-                modifier = Modifier
-                    .fillMaxWidth(buttonWidthFraction)
-                    .height(61.dp),
-
-            ) {
+            
+            GameBox(modifier = Modifier.fillMaxWidth(buttonWidthFraction).height(61.dp)) {
                 Button(
                     onClick = onSecondaryClick,
                     modifier = Modifier.fillMaxSize(),

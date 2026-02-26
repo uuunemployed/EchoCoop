@@ -17,18 +17,20 @@ class GameViewModel(private val repository: Repository) : ViewModel() {
     var rotationAngle by mutableStateOf(0f)
     var isGameOver by mutableStateOf(false)
     var isPaused by mutableStateOf(false)
-    private var isResultSaved = false
+
+    private var isRecordSaved = false
 
     val isPlaying: Boolean get() = !isGameOver && !isPaused
 
     val currentTopCornerIndex: Int
-        get() {
-            val normalizedAngle = ((rotationAngle.toInt() % 360 + 360) % 360)
-            return normalizedAngle / 120
-        }
+        get() = ((rotationAngle.toInt() % 360 + 360) % 360) / 120
 
     fun togglePause() {
         if (!isGameOver) isPaused = !isPaused
+    }
+
+    fun pauseGame() {
+        if (!isGameOver) isPaused = true
     }
 
     fun rotate() {
@@ -48,8 +50,8 @@ class GameViewModel(private val repository: Repository) : ViewModel() {
     }
 
     private fun saveFinalScore() {
-        if (score > 0 && !isResultSaved) {
-            isResultSaved = true
+        if (score > 0 && !isRecordSaved) {
+            isRecordSaved = true
             viewModelScope.launch(Dispatchers.IO) {
                 repository.saveRecord(
                     GameRecord(score = score, date = System.currentTimeMillis())
@@ -64,7 +66,7 @@ class GameViewModel(private val repository: Repository) : ViewModel() {
         isGameOver = false
         isPaused = false
         rotationAngle = 0f
-        isResultSaved = false
+        isRecordSaved = false
     }
 }
 

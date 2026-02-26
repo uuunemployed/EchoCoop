@@ -164,15 +164,15 @@ fun PauseMenu(onResume: () -> Unit, onExit: () -> Unit) {
 }
 
 @Composable
-fun GameOverMenu(score: Int, resetGame: () -> Unit, onExit: () -> Unit, isTopButton: Boolean) {
+fun GameOverMenu(score: Int, resetGame: () -> Unit, onExit: () -> Unit) {
     GameMenu(
         title = stringResource(id = R.string.game_over),
         subtitle = "Score: $score",
-        primaryButtonText = stringResource(id = R.string.exit),
+        primaryButtonText = null,
         onPrimaryClick = onExit,
         secondaryButtonText = stringResource(id = R.string.play_again),
         onSecondaryClick = resetGame,
-        isTopButton = isTopButton
+        isTopButton = true
     )
 }
 

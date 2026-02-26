@@ -12,6 +12,8 @@ import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.compose.LifecycleEventEffect
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.internship.echocoop.R
 import com.internship.echocoop.data.AppDatabase
@@ -24,6 +26,18 @@ fun GameScreen(onExit: () -> Unit) {
     val context = LocalContext.current
     val repository = remember { Repository(AppDatabase.getDatabase(context).recordDao()) }
     val viewModel: GameViewModel = viewModel(factory = GameViewModelFactory(repository))
+
+    LifecycleEventEffect (Lifecycle.Event.ON_PAUSE) {
+        viewModel.pauseGame()
+    }
+
+    androidx.activity.compose.BackHandler {
+        when {
+            viewModel.isGameOver -> onExit()
+            viewModel.isPaused -> viewModel.togglePause()
+            else -> viewModel.togglePause()
+        }
+    }
 
     val config = LocalConfiguration.current
     val screenHeightDp = config.screenHeightDp.toFloat()
@@ -39,15 +53,27 @@ fun GameScreen(onExit: () -> Unit) {
     LaunchedEffect(viewModel.isPlaying) {
         if (viewModel.isPlaying) {
             while (viewModel.isPlaying) {
-                val duration = (3000 - (viewModel.score / 5 * 200)).coerceAtLeast(1200)
+                val target = screenHeightDp + 50f
+                val startPos = -50f
+                val totalDistance = target - startPos
+                val fullDuration = (3000 - (viewModel.score / 5 * 200)).coerceAtLeast(1200)
+                val remainingDistance = target - yPosition.value
+                val adjustedDuration = ((remainingDistance / totalDistance) * fullDuration).toInt()
+
                 yPosition.animateTo(
-                    targetValue = screenHeightDp + 50f,
-                    animationSpec = tween(duration, easing = LinearEasing)
+                    targetValue = target,
+                    animationSpec = tween(
+                        durationMillis = if (adjustedDuration > 0) adjustedDuration else 0,
+                        easing = LinearEasing
+                    )
                 )
-                yPosition.snapTo(-50f)
-                currentColorIndex = (0..2).random()
-                currentRotation = (-20..20).random().toFloat()
-                hasCheckedCollision = false
+
+                if (viewModel.isPlaying) {
+                    yPosition.snapTo(startPos)
+                    currentColorIndex = (0..2).random()
+                    currentRotation = (-20..20).random().toFloat()
+                    hasCheckedCollision = false
+                }
             }
         } else {
             yPosition.stop()
@@ -82,11 +108,18 @@ fun GameScreen(onExit: () -> Unit) {
         GameHero(viewModel.rotationAngle) { viewModel.rotate() }
 
         if (viewModel.isGameOver) {
-            GameOverMenu(score = viewModel.score, resetGame = { viewModel.resetGame() }, onExit = onExit, isTopButton = true)
+            GameOverMenu(
+                score = viewModel.score,
+                resetGame = { viewModel.resetGame() },
+                onExit = onExit
+            )
         }
 
         if (viewModel.isPaused) {
-            PauseMenu(onResume = { viewModel.togglePause() }, onExit = onExit)
+            PauseMenu(
+                onResume = { viewModel.togglePause() },
+                onExit = onExit
+            )
         }
     }
 }
