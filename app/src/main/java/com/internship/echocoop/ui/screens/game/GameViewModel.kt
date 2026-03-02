@@ -38,18 +38,19 @@ class GameViewModel(private val repository: Repository) : ViewModel() {
     }
 
     fun handleCollision(stripColorIndex: Int) {
+        if (isGameOver) return
+
         if (stripColorIndex == currentTopCornerIndex) {
             score++
         } else {
             lives--
-            if (lives <= 0 && !isGameOver) {
+            if (lives <= 0) {
                 isGameOver = true
-                saveFinalScore()
             }
         }
     }
 
-    private fun saveFinalScore() {
+    fun saveFinalScore() {
         if (score > 0 && !isRecordSaved) {
             isRecordSaved = true
             viewModelScope.launch(Dispatchers.IO) {

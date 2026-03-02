@@ -28,13 +28,18 @@ fun GameScreen(onExit: () -> Unit) {
     val viewModel: GameViewModel = viewModel(factory = GameViewModelFactory(repository))
 
     LifecycleEventEffect (Lifecycle.Event.ON_PAUSE) {
-        viewModel.pauseGame()
+        if (!viewModel.isGameOver) {viewModel.pauseGame()}
+    }
+
+    LaunchedEffect(viewModel.isGameOver) {
+        if (viewModel.isGameOver) {
+            viewModel.saveFinalScore()
+        }
     }
 
     androidx.activity.compose.BackHandler {
         when {
             viewModel.isGameOver -> onExit()
-            viewModel.isPaused -> viewModel.togglePause()
             else -> viewModel.togglePause()
         }
     }
@@ -56,6 +61,7 @@ fun GameScreen(onExit: () -> Unit) {
                 val target = screenHeightDp + 50f
                 val startPos = -50f
                 val totalDistance = target - startPos
+
                 val fullDuration = (3000 - (viewModel.score / 5 * 200)).coerceAtLeast(1200)
                 val remainingDistance = target - yPosition.value
                 val adjustedDuration = ((remainingDistance / totalDistance) * fullDuration).toInt()
@@ -79,7 +85,6 @@ fun GameScreen(onExit: () -> Unit) {
             yPosition.stop()
         }
     }
-
     LaunchedEffect(yPosition.value) {
         if (!hasCheckedCollision && yPosition.value >= vertexY) {
             hasCheckedCollision = true
@@ -105,6 +110,7 @@ fun GameScreen(onExit: () -> Unit) {
         )
 
         GameTopUI(viewModel.lives, viewModel.score) { viewModel.togglePause() }
+
         GameHero(viewModel.rotationAngle) { viewModel.rotate() }
 
         if (viewModel.isGameOver) {
