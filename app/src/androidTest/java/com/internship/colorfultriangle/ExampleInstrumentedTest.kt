@@ -1,4 +1,4 @@
-package com.internship.echocoop
+package com.internship.colorfultriangle
 
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4

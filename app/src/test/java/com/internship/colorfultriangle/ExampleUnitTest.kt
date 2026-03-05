@@ -1,4 +1,4 @@
-package com.internship.echocoop
+package com.internship.colorfultriangle
 
 import org.junit.Test
 
